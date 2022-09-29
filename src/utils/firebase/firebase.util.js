@@ -25,7 +25,8 @@ const db = getFirestore();
 
 export const auth = getAuth();
 
-export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
 
 export const getUserDocument = async (userAuth, additionalData) => {
   const userDocRef = doc(db, "users", userAuth.uid);
@@ -62,6 +63,7 @@ export const signUpWithEmail = async (email, password, displayName) => {
     return user;
   } catch (error) {
     alert(error.message);
+    return null;
   }
 };
 
@@ -72,5 +74,6 @@ export const signInWithEmail = async (email, password) => {
     return user;
   } catch (error) {
     alert(error.message);
+    return null;
   }
 };

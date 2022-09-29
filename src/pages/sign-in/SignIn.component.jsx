@@ -3,6 +3,13 @@ import FloatingCard from "../../UI/floating-card/FloatingCard.component";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import {
+  getUserDocument,
+  signInWithEmail,
+} from "../../utils/firebase/firebase.util";
+import { useState } from "react";
+import Spinner from "../../UI/spinner/Spinner.component";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const schema = Yup.object().shape({
@@ -14,14 +21,36 @@ const SignIn = () => {
       .min(6, "Password must be at least 6 characters"),
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+
+    const user = await signInWithEmail(data.email, data.password);
+
+    let userDocument = null;
+    if (user) {
+      userDocument = await getUserDocument(user.user);
+      reset({
+        email: "",
+        password: "",
+      });
+      navigate("/dashbaord");
+    }
+
+    setIsLoading(false);
+    
+  };
 
   return (
     <div className="bg-secondary w-full h-screen flex items-center justify-center">
@@ -52,7 +81,7 @@ const SignIn = () => {
             />
             <p className="text-red-500">{errors.password?.message}</p>
           </div>
-          <Button type="primary">Sign in</Button>
+          <Button type="primary">{isLoading ? <Spinner /> : "Sign in"}</Button>
         </form>
       </FloatingCard>
     </div>
