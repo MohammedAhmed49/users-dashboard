@@ -3,7 +3,13 @@ import FloatingCard from "../../UI/floating-card/FloatingCard.component";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { signUpWithEmail } from "../../utils/firebase/firebase.util";
+import {
+  getUserDocument,
+  signUpWithEmail,
+} from "../../utils/firebase/firebase.util";
+import { useState } from "react";
+import Spinner from "../../UI/spinner/Spinner.component";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const schema = Yup.object().shape({
@@ -20,16 +26,35 @@ const Register = () => {
       .oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    const displayName = `${data.firstName} ${data.lastName}`;
+
+    const user = await signUpWithEmail(data.email, data.password, displayName);
+    let userDocument = null;
+    if (user) {
+      userDocument = await getUserDocument(user.user);
+      reset({
+        email: "",
+        password: "",
+      });
+      navigate("/dashbaord");
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -103,7 +128,9 @@ const Register = () => {
               {errors.passwordConfirmation?.message}
             </p>
           </div>
-          <Button type="primary">Create account</Button>
+          <Button type="primary">
+            {isLoading ? <Spinner /> : "Create account"}
+          </Button>
         </form>
       </FloatingCard>
     </div>
