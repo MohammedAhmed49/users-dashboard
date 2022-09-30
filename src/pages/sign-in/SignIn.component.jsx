@@ -45,7 +45,6 @@ const SignIn = () => {
     let userDocument = null;
     if (user) {
       userDocument = await getUserDocument(user.user);
-      console.log(userDocument);
       dispatch(userActions.signIn(userDocument));
       reset({
         email: "",
