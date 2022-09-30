@@ -10,6 +10,8 @@ import {
 import { useState } from "react";
 import Spinner from "../../UI/spinner/Spinner.component";
 import { useNavigate } from "react-router-dom";
+import { userActions } from "../../store/user/user.reducer";
+import { useDispatch } from "react-redux";
 
 const SignIn = () => {
   const schema = Yup.object().shape({
@@ -24,6 +26,8 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -41,6 +45,8 @@ const SignIn = () => {
     let userDocument = null;
     if (user) {
       userDocument = await getUserDocument(user.user);
+      console.log(userDocument);
+      dispatch(userActions.signIn(userDocument));
       reset({
         email: "",
         password: "",
@@ -49,7 +55,6 @@ const SignIn = () => {
     }
 
     setIsLoading(false);
-    
   };
 
   return (

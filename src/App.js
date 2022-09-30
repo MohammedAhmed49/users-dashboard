@@ -5,13 +5,16 @@ import Dashboard from "./pages/dashboard/Dashboard.component.jsx";
 import Register from "./pages/register/Register.component.jsx";
 import SignIn from "./pages/sign-in/SignIn.component.jsx";
 import { onAuthStateChangedListener } from "./utils/firebase/firebase.util.js";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "./store/user/user.reducer.js";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
-      setUser(user);
+      dispatch(userActions.signIn(user));
     });
 
     return () => {
@@ -23,7 +26,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout user={user} />}>
+          <Route path="/" element={<Layout />}>
             {user ? (
               <>
                 <Route index element={<Navigate to="dashboard" />} />
