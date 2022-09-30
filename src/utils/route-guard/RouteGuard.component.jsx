@@ -1,12 +1,8 @@
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-const useAuth = () => {
-  const user = null;
-  return user;
-};
-
 const RouteGuard = () => {
-  const auth = useAuth();
+  const auth = useSelector((state) => state.user.user);
   return auth ? <Outlet /> : <Navigate to="/sign-in" />;
 };
 

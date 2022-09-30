@@ -7,6 +7,8 @@ import SignIn from "./pages/sign-in/SignIn.component.jsx";
 import { onAuthStateChangedListener } from "./utils/firebase/firebase.util.js";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "./store/user/user.reducer.js";
+import RouteGuard from "./utils/route-guard/RouteGuard.component.jsx";
+import TodoList from "./components/todo-list/TodoList.component.jsx";
 
 function App() {
   const user = useSelector((state) => state.user.user);
@@ -27,18 +29,21 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            {user ? (
+            {!user ? (
               <>
-                <Route index element={<Navigate to="dashboard" />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="*" element={<Navigate to="dashboard" />} />
+                <Route index element={<Navigate to="/sign-in" />} />
+                <Route path="sign-in" element={<SignIn />} />
+                <Route path="register" element={<Register />} />
+                <Route path="*" element={<Navigate to="/" />} />
               </>
             ) : (
               <>
-                <Route index element={<SignIn />} />
-                <Route path="sign-in" element={<SignIn />} />
-                <Route path="register" element={<Register />} />
-                <Route path="*" element={<Navigate to="sign-in" />} />
+                <Route index element={<Navigate to="dashboard" />} />
+                <Route path="dashboard" element={<Dashboard />}>
+                  <Route index element={<TodoList />} />
+                  <Route path="users" element={<p>Users</p>} />
+                </Route>
+                <Route path="*" element={<Navigate to="/" />} />
               </>
             )}
           </Route>
