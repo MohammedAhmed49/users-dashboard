@@ -10,6 +10,8 @@ import {
 import { useState } from "react";
 import Spinner from "../../UI/spinner/Spinner.component";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/user/user.reducer";
 
 const Register = () => {
   const schema = Yup.object().shape({
@@ -30,6 +32,8 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -46,7 +50,10 @@ const Register = () => {
     const user = await signUpWithEmail(data.email, data.password, displayName);
     let userDocument = null;
     if (user) {
+      
       userDocument = await getUserDocument(user.user);
+
+      dispatch(userActions.signIn(userDocument));
       reset({
         email: "",
         password: "",

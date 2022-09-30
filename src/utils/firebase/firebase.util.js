@@ -44,11 +44,15 @@ export const getUserDocument = async (userAuth, additionalData) => {
         ...additionalData,
       });
 
-      return result;
+      const newDocSnap = await getDoc(userDocRef);
+      return newDocSnap.data();
     } catch (error) {
       alert(error.message);
+      return null;
     }
   }
+
+  return userDocSnap.data();
 };
 
 export const signOutCustom = async () => await signOut(auth);
@@ -70,7 +74,6 @@ export const signUpWithEmail = async (email, password, displayName) => {
 export const signInWithEmail = async (email, password) => {
   try {
     const user = await signInWithEmailAndPassword(auth, email, password);
-    console.log(user);
     return user;
   } catch (error) {
     alert(error.message);

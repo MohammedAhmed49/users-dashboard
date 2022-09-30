@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import { signOutCustom } from "../../utils/firebase/firebase.util";
+import { useSelector, useDispatch } from "react-redux";
+import { userActions } from "../../store/user/user.reducer";
 
-const Header = ({ user }) => {
+const Header = () => {
+  const user = useSelector(state => state.user.user);
+  const dispatch = useDispatch();
+
   const signOutHandler = async (e) => {
     e.preventDefault();
     await signOutCustom();
+    dispatch(userActions.signOut());
   };
 
   return (
