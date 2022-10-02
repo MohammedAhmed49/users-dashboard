@@ -7,7 +7,14 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -89,4 +96,19 @@ export const signInWithEmail = async (email, password) => {
     alert(error.message);
     return null;
   }
+};
+
+export const getUsersCollection = async () => {
+  const querySnapshot = await getDocs(collection(db, "users"));
+  const users = [];
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    const user = {
+      id: doc.id,
+      ...doc.data(),
+    };
+    users.push(user);
+  });
+
+  return users;
 };
