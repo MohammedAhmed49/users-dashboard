@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import TodoList from "./components/todo-list/TodoList.component.jsx";
 import { setUserDocument } from "./store/user/user.actions.js";
+import { fetchAllUsers } from "./store/users/users.actions.js";
+import UsersList from "./components/users-list/UsersList.component.jsx";
 
 function App() {
   const user = useSelector((state) => state.user.user);
@@ -20,6 +22,8 @@ function App() {
     const unsubscribe = onAuthStateChangedListener((newUser) => {
       dispatch(setUserDocument(newUser));
     });
+
+    dispatch(fetchAllUsers());
 
     return () => {
       unsubscribe();
@@ -43,7 +47,7 @@ function App() {
                 <Route index element={<Navigate to="dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />}>
                   <Route index element={<TodoList />} />
-                  <Route path="users" element={<p>Users</p>} />
+                  <Route path="users" element={<UsersList />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" />} />
               </>
