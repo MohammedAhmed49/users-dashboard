@@ -71,6 +71,16 @@ export const signUpWithEmail = async (email, password, displayName) => {
   }
 };
 
+export const updateTodosList = async (todosList) => {
+  const userDocRef = doc(db, "users", auth.currentUser.uid);
+  try {
+    setDoc(userDocRef, { todosList: todosList }, { merge: true });
+  } catch (error) {
+    alert(error.message);
+    return null;
+  }
+};
+
 export const signInWithEmail = async (email, password) => {
   try {
     const user = await signInWithEmailAndPassword(auth, email, password);

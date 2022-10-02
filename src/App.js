@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./layout/Layout.component.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.component.jsx";
 import Register from "./pages/register/Register.component.jsx";
 import SignIn from "./pages/sign-in/SignIn.component.jsx";
-import { onAuthStateChangedListener } from "./utils/firebase/firebase.util.js";
+import {
+  onAuthStateChangedListener,
+} from "./utils/firebase/firebase.util.js";
 import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "./store/user/user.reducer.js";
-import RouteGuard from "./utils/route-guard/RouteGuard.component.jsx";
+
 import TodoList from "./components/todo-list/TodoList.component.jsx";
+import { setUserDocument } from "./store/user/user.actions.js";
 
 function App() {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
-      dispatch(userActions.signIn(user));
+    const unsubscribe = onAuthStateChangedListener((newUser) => {
+      dispatch(setUserDocument(newUser));
     });
 
     return () => {

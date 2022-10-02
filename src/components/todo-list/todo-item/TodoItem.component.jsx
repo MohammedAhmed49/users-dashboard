@@ -1,12 +1,13 @@
 import { useState } from "react";
 import DeleteConfirmModal from "../../../UI/modal/DeleteConfirmModal.component";
 
-const TodoItem = ({ todo, deleteConfirmed }) => {
+const TodoItem = ({ todo, deleteConfirmed, updateTodo }) => {
   const [isDone, setIsDone] = useState(todo.isDone);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const toggleIsDone = (e) => {
     setIsDone(e.target.checked);
+    updateTodo(todo.id, e.target.checked);
   };
 
   const closeDeleteModal = () => {

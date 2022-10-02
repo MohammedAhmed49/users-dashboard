@@ -1,44 +1,65 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ReactSortable } from "react-sortablejs";
+import {
+  addTodoAsync,
+  deleteTodoAsync,
+  updateTodoAsync,
+} from "../../store/todos/todos.actions";
+import { todoActions } from "../../store/todos/todos.reducer";
 import Button from "../../UI/buttons/Buttons.component";
+import ListCard from "../../UI/list-card/ListCard.component";
 import AddTodoModal from "../../UI/modal/AddTodoModal.component";
 import TodoItem from "./todo-item/TodoItem.component";
 
 const TodoList = () => {
-  const [todos, setTodos] = useState([
-    { mission: "Todo 1", isDone: false, id: 1 },
-    { mission: "Todo 2", isDone: true, id: 2 },
-    { mission: "Todo 3", isDone: true, id: 3 },
-  ]);
+  const todos = useSelector((state) => state.todos.todosList);
   const [showAdd, setShowAdd] = useState(false);
+
+  const dispatch = useDispatch();
 
   const closeAddModal = () => {
     setShowAdd(false);
   };
 
   const addTodo = (value) => {
-    console.log(value);
+    const id = Math.floor(Math.random() * 10000000);
+    dispatch(addTodoAsync(todos, { id: id, mission: value, isDone: false }));
   };
 
   const deleteConfirmed = (id) => {
-    console.log(id);
+    dispatch(deleteTodoAsync(todos, id));
+  };
+
+  const updateTodo = (id, isDoneValue) => {
+    const newTodoList = todos.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          isDone: isDoneValue,
+        };
+      }
+      return item;
+    });
+    dispatch(updateTodoAsync(newTodoList));
   };
 
   let todosContent = <p className="text-lg">Create a new todo!</p>;
 
-  if (todos) {
+  if (todos.length > 0) {
     todosContent = (
       <ReactSortable
-        list={todos}
-        setList={setTodos}
         animation={200}
         swap={true}
+        list={todos.map((x) => ({ ...x, chosen: true }))}
+        setList={(todos) => dispatch(todoActions.setList(todos))}
       >
         {todos.map((todo) => (
           <TodoItem
             key={todo.id}
             todo={todo}
             deleteConfirmed={deleteConfirmed}
+            updateTodo={updateTodo}
           />
         ))}
       </ReactSortable>
@@ -46,27 +67,24 @@ const TodoList = () => {
   }
 
   return (
-    <div className="w-1/2">
+    <ListCard>
       <AddTodoModal
         isOpened={showAdd}
         closeModal={closeAddModal}
         addTodo={addTodo}
       />
-
-      <div className="p-4 w-full bg-white rounded-lg border shadow-md sm:p-8">
-        <div className="flex justify-between items-center mb-4">
-          <h5 className="text-xl font-bold text-gray-900">Todo list</h5>
-          <Button type="green" onClick={() => setShowAdd(true)}>
-            Add Todo
-          </Button>
-        </div>
-        <div className="flow-root">
-          <ul role="list" className="divide-y divide-gray-200 ">
-            {todosContent}
-          </ul>
-        </div>
+      <div className="flex justify-between items-center mb-4">
+        <h5 className="text-xl font-bold text-gray-900">Todo list</h5>
+        <Button type="green" onClick={() => setShowAdd(true)}>
+          Add Todo
+        </Button>
       </div>
-    </div>
+      <div className="flow-root">
+        <ul role="list" className="divide-y divide-gray-200 ">
+          {todosContent}
+        </ul>
+      </div>
+    </ListCard>
   );
 };
 

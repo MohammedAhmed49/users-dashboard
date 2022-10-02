@@ -10,7 +10,6 @@ import {
 import { useState } from "react";
 import Spinner from "../../UI/spinner/Spinner.component";
 import { useNavigate } from "react-router-dom";
-import { userActions } from "../../store/user/user.reducer";
 import { useDispatch } from "react-redux";
 
 const SignIn = () => {
@@ -45,7 +44,7 @@ const SignIn = () => {
     let userDocument = null;
     if (user) {
       userDocument = await getUserDocument(user.user);
-      dispatch(userActions.signIn(userDocument));
+      
       reset({
         email: "",
         password: "",
