@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import TodoList from "./components/todo-list/TodoList.component.jsx";
 import { setUserDocument } from "./store/user/user.actions.js";
-import { fetchAllUsers } from "./store/users/users.actions.js";
 import UsersList from "./components/users-list/UsersList.component.jsx";
 import Settings from "./components/settings/Settings.components.jsx";
 
@@ -22,8 +21,6 @@ function App() {
     const unsubscribe = onAuthStateChangedListener((newUser) => {
       dispatch(setUserDocument(newUser));
     });
-
-    dispatch(fetchAllUsers());
 
     return () => {
       unsubscribe();
