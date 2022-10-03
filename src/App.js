@@ -11,6 +11,7 @@ import TodoList from "./components/todo-list/TodoList.component.jsx";
 import { setUserDocument } from "./store/user/user.actions.js";
 import UsersList from "./components/users-list/UsersList.component.jsx";
 import Settings from "./components/settings/Settings.components.jsx";
+import Profile from "./components/profile/Profile.component.jsx";
 
 function App() {
   const user = useSelector((state) => state.user.user);
@@ -46,6 +47,7 @@ function App() {
                   <Route index element={<TodoList />} />
                   <Route path="users" element={<UsersList />} />
                   <Route path="settings" element={<Settings />} />
+                  <Route path="profile" element={<Profile />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" />} />
               </>
