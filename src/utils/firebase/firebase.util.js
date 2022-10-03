@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updatePassword,
   updateProfile,
 } from "firebase/auth";
 import {
@@ -61,7 +62,6 @@ export const getUserDocument = async (userAuth, additionalData) => {
       return null;
     }
   }
-  console.log(userDocSnap.data());
   return userDocSnap.data();
 };
 
@@ -142,3 +142,13 @@ export const updateUserName = async (displayName) => {
     return null;
   }
 };
+
+export const changePassword = async (newPassword) => {
+  try {
+    await updatePassword(auth.currentUser, newPassword);
+    return 1;
+  } catch (error) {
+    alert(error.message);
+    return null;
+  } 
+}
