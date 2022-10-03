@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updatePassword,
   updateProfile,
 } from "firebase/auth";
 import {
@@ -54,13 +55,13 @@ export const getUserDocument = async (userAuth, additionalData) => {
       });
 
       const newDocSnap = await getDoc(userDocRef);
+
       return newDocSnap.data();
     } catch (error) {
       alert(error.message);
       return null;
     }
   }
-
   return userDocSnap.data();
 };
 
@@ -123,6 +124,31 @@ export const deleteAccount = async () => {
     await deleteDoc(userDocRef);
     await deleteUser(user);
   } catch (error) {
-    alert(error)
+    alert(error);
   }
+};
+
+export const updateUserName = async (displayName) => {
+  const userDocRef = doc(db, "users", auth.currentUser.uid);
+
+  try {
+    await updateProfile(auth.currentUser, {
+      displayName: displayName,
+    });
+    setDoc(userDocRef, { displayName: displayName }, { merge: true });
+    return auth.currentUser;
+  } catch (error) {
+    alert(error.message);
+    return null;
+  }
+};
+
+export const changePassword = async (newPassword) => {
+  try {
+    await updatePassword(auth.currentUser, newPassword);
+    return 1;
+  } catch (error) {
+    alert(error.message);
+    return null;
+  } 
 }
