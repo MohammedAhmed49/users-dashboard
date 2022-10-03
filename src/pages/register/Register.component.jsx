@@ -59,9 +59,9 @@ const Register = () => {
   };
 
   return (
-    <div className="bg-secondary w-full h-screen flex items-center justify-center">
+    <div className="bg-secondary w-full h-screen flex items-center justify-center dark:bg-slate-800">
       <FloatingCard>
-        <h2 className="text-center text-2xl font-bold text-primary">
+        <h2 className="text-center text-2xl font-bold text-primary dark:text-white">
           Create a new account
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -19,7 +19,7 @@ const TodoItem = ({ todo, deleteConfirmed, updateTodo }) => {
     closeDeleteModal();
   };
   return (
-    <li className="py-3 sm:py-4 bg-primary px-4 rounded-md mb-2 cursor-grab">
+    <li className="py-3 sm:py-4 bg-primary px-4 rounded-md mb-2 cursor-grab dark:bg-slate-500">
       <DeleteConfirmModal
         isOpened={showDeleteModal}
         closeModal={closeDeleteModal}

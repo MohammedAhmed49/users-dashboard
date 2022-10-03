@@ -44,7 +44,7 @@ const SignIn = () => {
     let userDocument = null;
     if (user) {
       userDocument = await getUserDocument(user.user);
-      
+
       reset({
         email: "",
         password: "",
@@ -56,9 +56,11 @@ const SignIn = () => {
   };
 
   return (
-    <div className="bg-secondary w-full h-screen flex items-center justify-center">
+    <div className="bg-secondary w-full h-screen flex items-center justify-center dark:bg-slate-800">
       <FloatingCard>
-        <h2 className="text-center text-2xl font-bold text-primary">Sign in</h2>
+        <h2 className="text-center text-2xl font-bold text-primary dark:text-white">
+          Sign in
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="my-5 w-full">
             <input

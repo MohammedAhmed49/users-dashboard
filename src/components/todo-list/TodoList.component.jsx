@@ -74,13 +74,15 @@ const TodoList = () => {
         addTodo={addTodo}
       />
       <div className="flex justify-between items-center mb-4">
-        <h5 className="text-xl font-bold text-gray-900">Todo list</h5>
+        <h5 className="text-xl font-bold text-gray-900 dark:text-white">
+          Todo list
+        </h5>
         <Button type="green" onClick={() => setShowAdd(true)}>
           Add Todo
         </Button>
       </div>
       <div className="flow-root">
-        <ul role="list" className="divide-y divide-gray-200 ">
+        <ul role="list" className="divide-y divide-gray-200 dark:text-white">
           {todosContent}
         </ul>
       </div>
