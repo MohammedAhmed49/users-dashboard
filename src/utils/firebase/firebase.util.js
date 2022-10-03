@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -9,6 +10,7 @@ import {
 } from "firebase/auth";
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -112,3 +114,15 @@ export const getUsersCollection = async () => {
 
   return users;
 };
+
+export const deleteAccount = async () => {
+  const user = auth.currentUser;
+  const userDocRef = doc(db, "users", user.uid);
+
+  try {
+    await deleteDoc(userDocRef);
+    await deleteUser(user);
+  } catch (error) {
+    alert(error)
+  }
+}

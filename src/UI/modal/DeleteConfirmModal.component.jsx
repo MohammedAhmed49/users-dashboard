@@ -19,20 +19,20 @@ const DeleteConfirmModal = (props) => {
               className="relative my-6 mx-auto w-1/3 cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white dark:bg-primary outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">
+                  <h3 className="text-3xl font-semibold dark:text-white">
                     Delete confirmation
                   </h3>
                 </div>
 
-                <div className="relative p-6 flex-auto">
+                <div className="relative p-6 flex-auto dark:text-white">
                   <p>Are you sure you want to delete?</p>
                 </div>
 
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
-                    className="text-black background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-black dark:text-white background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={props.closeModal}
                   >

@@ -6,8 +6,10 @@ const UsersList = () => {
   const users = useSelector((state) => state.users.users);
   return (
     <ListCard>
-      <div className="flex justify-between items-center mb-4">
-        <h5 className="text-xl font-bold text-gray-900">Users</h5>
+      <div className="flex justify-between items-center mb-4 ">
+        <h5 className="text-xl font-bold text-gray-900 dark:text-white">
+          Users
+        </h5>
       </div>
       <div className="flow-root">
         <ul role="list" className="divide-y divide-gray-200 ">

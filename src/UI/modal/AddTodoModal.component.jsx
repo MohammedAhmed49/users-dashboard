@@ -35,15 +35,17 @@ const AddTodoModal = (props) => {
               className="relative my-6 mx-auto w-1/3"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none dark:bg-primary">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">Add a new todo</h3>
+                  <h3 className="text-3xl font-semibold dark:text-white">
+                    Add a new todo
+                  </h3>
                 </div>
 
                 <div className="relative p-6 flex-auto">
                   <input
                     type="text"
-                    className="form-input rounded-lg flex-grow w-full border-borderClr"
+                    className="form-input rounded-lg flex-grow w-full border-borderClr dark:border-white"
                     placeholder="Enter the new todo"
                     ref={inputRef}
                     required

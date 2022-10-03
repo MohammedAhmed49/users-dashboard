@@ -4,12 +4,16 @@ import { userActions } from "./user.reducer";
 
 export const setUserDocument = (newUser) => {
   return async (dispatch) => {
-    const userDocument = await getUserDocument(newUser);
+    if (newUser) {
+      const userDocument = await getUserDocument(newUser);
       dispatch(userActions.signIn(userDocument));
-    if (userDocument?.todosList?.length) {
-      dispatch(todoActions.setList(userDocument.todosList));
+      if (userDocument?.todosList?.length) {
+        dispatch(todoActions.setList(userDocument.todosList));
+      }
     } else {
+      dispatch(userActions.signIn(null));
       dispatch(todoActions.setList([]));
     }
+    
   };
 };

@@ -1,10 +1,11 @@
 export const BUTTON_TYPES_CLASSES = {
   primary:
-    "bg-primary text-white border-primary hover:bg-white hover:text-primary",
+    "bg-primary text-white border-primary hover:bg-white hover:text-primary dark:bg-slate-500 dark:hover:bg-white",
   white:
     "bg-white text-primary border-primary hover:bg-primary hover:text-white",
   green:
     "bg-green-500 text-white border-green-500 hover:bg-white hover:text-green-500",
+  red: "bg-red-500 text-white border-red-500 hover:bg-white hover:text-red-500",
 };
 
 const Button = (props) => {

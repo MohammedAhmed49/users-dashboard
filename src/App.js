@@ -4,18 +4,18 @@ import Layout from "./layout/Layout.component.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.component.jsx";
 import Register from "./pages/register/Register.component.jsx";
 import SignIn from "./pages/sign-in/SignIn.component.jsx";
-import {
-  onAuthStateChangedListener,
-} from "./utils/firebase/firebase.util.js";
+import { onAuthStateChangedListener } from "./utils/firebase/firebase.util.js";
 import { useDispatch, useSelector } from "react-redux";
 
 import TodoList from "./components/todo-list/TodoList.component.jsx";
 import { setUserDocument } from "./store/user/user.actions.js";
 import { fetchAllUsers } from "./store/users/users.actions.js";
 import UsersList from "./components/users-list/UsersList.component.jsx";
+import Settings from "./components/settings/Settings.components.jsx";
 
 function App() {
   const user = useSelector((state) => state.user.user);
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className={darkMode ? "dark" : null}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -48,6 +48,7 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />}>
                   <Route index element={<TodoList />} />
                   <Route path="users" element={<UsersList />} />
+                  <Route path="settings" element={<Settings />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" />} />
               </>
