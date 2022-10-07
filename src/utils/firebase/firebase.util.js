@@ -74,6 +74,8 @@ export const signUpWithEmail = async (email, password, displayName) => {
     await updateProfile(auth.currentUser, {
       displayName: displayName,
     });
+
+    await setDoc(doc(db, "usersChats", auth.currentUser.uid), {});
     return user;
   } catch (error) {
     alert(error.message);
@@ -150,5 +152,5 @@ export const changePassword = async (newPassword) => {
   } catch (error) {
     alert(error.message);
     return null;
-  } 
-}
+  }
+};
