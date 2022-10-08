@@ -6,12 +6,14 @@ import darkModeReducer from "./dark-mode/dark-mode.reducer";
 import todosReducer from "./todos/todos.reducer";
 import userReducer from "./user/user.reducer";
 import usersReducer from "./users/users.reducer";
+import userChatReducer from "./user-chat/user-chat.reducer";
 
 const reducers = combineReducers({
   user: userReducer,
   todos: todosReducer,
   users: usersReducer,
   darkMode: darkModeReducer,
+  userChat: userChatReducer
 });
 
 const persistConfig = {

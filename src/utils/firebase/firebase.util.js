@@ -16,7 +16,10 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  onSnapshot,
+  serverTimestamp,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -31,7 +34,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const db = getFirestore();
+export const db = getFirestore();
 
 export const auth = getAuth();
 
@@ -43,7 +46,7 @@ export const getUserDocument = async (userAuth, additionalData) => {
   const userDocSnap = await getDoc(userDocRef);
 
   if (!userDocSnap.exists()) {
-    const { email, displayName } = userAuth;
+    const { email, displayName, uid } = userAuth;
     const creationDate = new Date();
 
     try {
@@ -51,6 +54,7 @@ export const getUserDocument = async (userAuth, additionalData) => {
         email,
         displayName,
         creationDate,
+        uid,
         ...additionalData,
       });
 
@@ -154,3 +158,36 @@ export const changePassword = async (newPassword) => {
     return null;
   }
 };
+
+export const startNewChat = async (currentUser, otherUser, chatId) => {
+  const chatDocRef = doc(db, "chats", chatId);
+  const chatSnap = await getDoc(chatDocRef);
+
+  if (!chatSnap.exists()) {
+    try {
+      await setDoc(doc(db, "chats", chatId), { messages: [] });
+
+      await updateDoc(doc(db, "usersChats", currentUser.uid), {
+        [chatId + ".userInfo"]: {
+          uid: otherUser.uid,
+          displayName: otherUser.displayName,
+        },
+        [chatId + ".date"]: serverTimestamp(),
+      });
+
+      await updateDoc(doc(db, "usersChats", otherUser.uid), {
+        [chatId + ".userInfo"]: {
+          uid: currentUser.uid,
+          displayName: currentUser.uid,
+        },
+        [chatId + ".date"]: serverTimestamp(),
+      });
+    } catch (error) {
+      alert(error);
+    }
+  }
+};
+
+export const onChatsSnapshot = (callback) =>
+  auth.currentUser &&
+  onSnapshot(doc(db, "usersChats", auth.currentUser.uid), callback);
