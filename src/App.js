@@ -12,7 +12,7 @@ import { setUserDocument } from "./store/user/user.actions.js";
 import UsersList from "./components/users-list/UsersList.component.jsx";
 import Settings from "./components/settings/Settings.components.jsx";
 import Profile from "./components/profile/Profile.component.jsx";
-
+import ChatPage from "./components/chat-page/ChatPage.component.jsx";
 
 function App() {
   const user = useSelector((state) => state.user.user);
@@ -47,6 +47,7 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />}>
                   <Route index element={<TodoList />} />
                   <Route path="users" element={<UsersList />} />
+                  <Route path="chat" element={<ChatPage />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="profile" element={<Profile />} />
                 </Route>
