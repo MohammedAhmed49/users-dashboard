@@ -16,8 +16,6 @@ const ChatList = () => {
     };
   }, [user]);
 
-  console.log(chats);
-
   let chatHeaders = (
     <p className="text-lg dark:text-white text-center py-10">
       Go to users and start a new chat!
@@ -27,7 +25,9 @@ const ChatList = () => {
   if (chats) {
     chatHeaders = Object.entries(chats)
       .sort((a, b) => b[1].date - a[1].date)
-      .map((chat) => <ChatHeader chat={chat[1]} key={chat[0]} />);
+      .map((chat) => (
+        <ChatHeader chat={chat[1]} key={chat[0]} chatId={chat[0]} />
+      ));
   }
 
   return (

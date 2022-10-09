@@ -1,16 +1,21 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Message = () => {
-  const [isOwner, setIsOwner] = useState(false);
+const Message = ({ message }) => {
+  const currentUser = useSelector((state) => state.user.user);
+  const otherUser = useSelector((state) => state.userChat.user);
+  const [isOwner, setIsOwner] = useState(currentUser.uid === message.senderId);
   return (
     <div
-      className={`flex gap-5 p-5 mb-10 ${isOwner ? "flex-row-reverse" : ""}`}
+      className={`flex gap-2 p-5 flex-wrap ${
+        isOwner ? "flex-row-reverse" : ""
+      }`}
     >
-      <img
-        src="https://nationaltoday.com/wp-content/uploads/2020/08/international-cat-day-640x514.jpg"
-        alt=""
-        className="w-10 h-10 rounded-full"
-      />
+      {isOwner ? (
+        <span className="w-full text-right dark:text-slate-400">{currentUser.displayName}</span>
+      ) : (
+        <span className="w-full text-left dark:text-slate-400">{otherUser.displayName}</span>
+      )}
       <div
         className={`max-w-[calc(80%_-_0px)] flex flex-col ${
           isOwner ? "items-end" : ""
@@ -23,13 +28,9 @@ const Message = () => {
               : "rounded-tl-none bg-gray-600"
           }`}
         >
-          Hi there
+          {message.text}
         </p>
-        <img
-          src="https://nationaltoday.com/wp-content/uploads/2020/08/international-cat-day-640x514.jpg"
-          alt=""
-          className="w-1/2"
-        />
+        {message.photo && <img src={message.photo} alt="" className="w-1/2" />}
       </div>
     </div>
   );
