@@ -118,9 +118,9 @@ const Profile = () => {
         </Button>
       </div>
 
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <Button type="red">Delete chat history</Button>
-      </div>
+      </div> */}
       <ToastContainer />
     </FloatingCard>
   );
